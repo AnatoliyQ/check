@@ -103,11 +103,10 @@ LinkedList<AEROFLOT> *JsonToAeroflotList(const json &jArr, ERRORS *pError) {
     }
 
     for (const json &jVal : jArr) {
-        const json jObj = json::parse(jVal);
 
-        if (!jObj.contains("Номер рейса")
-            || !jObj.contains("Пункт назначения")
-            || !jObj.contains("Тип самолета")) {
+        if (!jVal.contains("Номер рейса")
+            || !jVal.contains("Пункт назначения")
+            || !jVal.contains("Тип самолета")) {
             if (pError != nullptr) {
                 *pError = ERRORS::JSON_PART_BROKEN;
             }
@@ -117,9 +116,9 @@ LinkedList<AEROFLOT> *JsonToAeroflotList(const json &jArr, ERRORS *pError) {
 
 
         AEROFLOT flight;
-        flight.nFlightNumber = jObj.at("Номер рейса");
-        flight.strDestination = jObj.at("Пункт назначения");
-        flight.strAircraftType = jObj.at("Тип самолета");
+        flight.nFlightNumber = jVal.at("Номер рейса");
+        flight.strDestination = jVal.at("Пункт назначения");
+        flight.strAircraftType = jVal.at("Тип самолета");
 
         pAeroList->PushFront(flight);
     }
@@ -128,16 +127,11 @@ LinkedList<AEROFLOT> *JsonToAeroflotList(const json &jArr, ERRORS *pError) {
 }
 
 json AeroflotToJson(const AEROFLOT &flight) {
-    const json strDestination = json::parse(flight.strDestination);
-
-    const json strAircraft = json::parse(flight.strAircraftType);
-
-    const json strFlightNumber = json::parse(flight.nFlightNumber);
 
     return {
-            {"Пункт назначения", strDestination},
-            {"Номер рейса",      strFlightNumber},
-            {"Тип самолета",     strAircraft}
+            {"Пункт назначения", flight.strDestination},
+            {"Номер рейса",      flight.nFlightNumber},
+            {"Тип самолета",     flight.strAircraftType}
     };
 }
 
