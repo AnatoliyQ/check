@@ -94,18 +94,8 @@ ERRORS SaveToFile(const json &jArr, const std::string &strName) {
         return ERRORS::INVALID_ARGUMENT;
     }
 
-//    const json strFileName = json::parse(strName);  // TODO
-//    QFile saveFile(strName);
-
     std::ofstream file(strName);
     file << jArr;
-
-//    if (!saveFile.open(QIODevice::WriteOnly)) {
-//        return ERRORS::FILE_OPEN_ERROR;
-//    }
-
-//    QJsonDocument saveDoc(jArr);
-//    saveFile.write(saveDoc.toJson());
 
     return ERRORS::NO_ERROR;
 }
@@ -121,26 +111,6 @@ json LoadFromFile(const std::string &strName, ERRORS *pError) {
 
     std::ifstream ifs(strName);
     json jf = json::parse(ifs);
-
-
-//    const QString strFileName = QString::fromStdString(strName);
-//    QFile loadFile(strFileName);
-
-//    if (!loadFile.open(QIODevice::ReadOnly)) {
-//        if (pError != nullptr) {
-//            *pError = ERRORS::FILE_OPEN_ERROR;
-//        }
-
-//        return {};
-//    }
-//
-//    QByteArray arrData = loadFile.readAll();
-//
-//    QJsonDocument loadDoc = QJsonDocument::fromJson(arrData);
-//
-//    if (pError != nullptr) {
-//        *pError = ERRORS::NO_ERROR;
-//    }
 
     return jf;
 }

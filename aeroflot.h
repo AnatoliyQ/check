@@ -24,13 +24,13 @@ struct AEROFLOT {
 
 bool operator==(const AEROFLOT &lhs, const AEROFLOT &rhs);
 
-AEROFLOT EnterFlight();
+AEROFLOT EnterFlight(LinkedList<AEROFLOT> pList);
 
-void EditFlight(AEROFLOT &flight);
+void EditFlight(AEROFLOT &flight, LinkedList<AEROFLOT> *pList);
 
 void EditDestination(std::string &strDestination);
 
-void EditFlightNumber(size_t &nFlightNumber);
+void EditFlightNumber(size_t &nFlightNumber, LinkedList<AEROFLOT> *pList);
 
 void EditAircraftType(std::string &strAircraftType);
 
@@ -56,6 +56,8 @@ bool CheckAircraftType(const std::string &strAircraftType);
 bool CheckDestination(const std::string &strDestination);
 
 bool CheckNumber(int iFlightNumber);
+
+bool isUnicFlight (int nFlightNumber, LinkedList<AEROFLOT> pList);
 
 
 #endif // AEROFLOT_H

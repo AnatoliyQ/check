@@ -169,11 +169,12 @@ bool CheckNumber(int iFlightNumber) {
     return iCount == 4;
 }
 
-AEROFLOT EnterFlight() {
+AEROFLOT EnterFlight(LinkedList<AEROFLOT> pList) {
     AEROFLOT flight;
 
     std::string strTemp;
     bool bFirst = true;
+    bool bFNumber = true;
 
     std::cout << "Введите аэропорт назначения: ";
     do {
@@ -206,16 +207,33 @@ AEROFLOT EnterFlight() {
 
     int iNumber = 0;
     bFirst = true;
+    bFNumber = true;
+    bool q = false;
     std::cout << "Введите номер рейса: ";
     do {
         if (bFirst) {
             bFirst = false;
         } else {
-            std::cout << "Номер рейса должен быть из 4 цифр" << std::endl;
+            std::cout << "Номер рейса не должен начинаться с 0 и быть из 4 цифр" << std::endl;
         }
 
         iNumber = GetIntValue();
-    } while (!CheckNumber(iNumber));
+
+        bFNumber = true;
+
+        if (!CheckNumber(iNumber)) {
+            bFirst = true;
+        } else {
+            if (!isUnicFlight(iNumber, pList)) {
+                bFNumber = false;
+                bFirst = true;
+                std::cout << "Номер рейса должен быть уникальным" << std::endl;
+            }
+        }
+
+        q = (CheckNumber(iNumber) && bFNumber);
+
+    } while (!q);
 
     flight.nFlightNumber = iNumber;
 
@@ -260,7 +278,7 @@ LinkedList<AEROFLOT> *FindByAircraft(LinkedList<AEROFLOT> *pList, const std::str
     return pResult;
 }
 
-void EditFlight(AEROFLOT &flight) {
+void EditFlight(AEROFLOT &flight, LinkedList<AEROFLOT> *pList) {
     int iNumParam = 1;
 
     while (iNumParam >= 1 && iNumParam <= 3) {
@@ -278,7 +296,7 @@ void EditFlight(AEROFLOT &flight) {
                 EditDestination(flight.strDestination);
                 break;
             case 2:
-                EditFlightNumber(flight.nFlightNumber);
+                EditFlightNumber(flight.nFlightNumber, pList);
                 break;
             case 3:
                 EditAircraftType(flight.strAircraftType);
@@ -309,20 +327,28 @@ void EditDestination(std::string &strDestination) {
     strDestination = strTemp;
 }
 
-void EditFlightNumber(size_t &nFlightNumber) {
+void EditFlightNumber(size_t &nFlightNumber, LinkedList<AEROFLOT> *pList) {
     bool bFirst = true;
 
     int iNumber = 0;
+
+    bool isDone = false;
 
     std::cout << "Введите новый номер рейса: ";
     do {
         if (bFirst) {
             bFirst = false;
         } else {
-            std::cout << "Номер рейса должен быть из 4 цифр" << std::endl;
+            bFirst = true;
+            std::cout << "Номер рейса не должен начинаться с 0 и должкен быть из 4 цифр" << std::endl;
         }
 
         iNumber = GetIntValue();
+
+        if (!isUnicFlight(iNumber, *pList)) {
+            std::cout << "Номер рейса должен быть уникальным" << std::endl;
+        }
+
     } while (!CheckNumber(iNumber));
 
     nFlightNumber = iNumber;
@@ -345,4 +371,27 @@ void EditAircraftType(std::string &strAircraftType) {
     } while (!CheckAircraftType(strTemp));
 
     strAircraftType = strTemp;
+}
+
+bool isUnicFlight(int nFlightNumber, LinkedList<AEROFLOT> pList) {
+    bool resultUnic = true;
+
+    const LinkedList<AEROFLOT>::Node *pNode = pList.GetHead();
+
+    std::cout << "Вход " << std::endl;
+
+    while (pNode != nullptr) {
+
+        const AEROFLOT &flight = pNode->m_value;
+
+
+        if (flight.nFlightNumber == nFlightNumber) {
+            resultUnic = false;
+        }
+
+        pNode = pNode->m_pNext;
+
+    }
+
+    return resultUnic;
 }

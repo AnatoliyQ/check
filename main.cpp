@@ -24,7 +24,7 @@ int main() {
             case 1: {
                 std::cout << "Добавить рейс\n\n";
 
-                const AEROFLOT flight = EnterFlight();
+                const AEROFLOT flight = EnterFlight(*pFlights);
 
                 const LinkedList<AEROFLOT>::Node *const pNode = pFlights->Find(flight);
 
@@ -40,12 +40,12 @@ int main() {
 
                 std::cout << "Поиск рейса для редактирования:\n";
 
-                AEROFLOT flight = EnterFlight();
+                AEROFLOT flight = EnterFlight(*pFlights);
 
                 LinkedList<AEROFLOT>::Node *const pNode = pFlights->Find(flight);
 
                 if (pNode != nullptr) {
-                    EditFlight(flight);
+                    EditFlight(flight, pFlights);
 
                     const LinkedList<AEROFLOT>::Node *const pFindEqual = pFlights->Find(flight);
 
@@ -73,7 +73,7 @@ int main() {
             case 3: {
                 std::cout << "Удаление рейса\n\n";
 
-                const AEROFLOT flight = EnterFlight();
+                const AEROFLOT flight = EnterFlight(*pFlights);
 
                 LinkedList<AEROFLOT>::Node *const pNode = pFlights->Find(flight);
 
