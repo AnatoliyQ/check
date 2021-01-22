@@ -1,8 +1,7 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-enum class ERRORS
-{
+enum class ERRORS {
     NO_ERROR = 1,
 
     OBJ_EMPTY = -1,

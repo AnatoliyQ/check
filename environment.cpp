@@ -95,6 +95,11 @@ ERRORS SaveToFile(const json &jArr, const std::string &strName) {
     }
 
     std::ofstream file(strName);
+
+    if (!file.is_open()) {
+        return ERRORS::FILE_OPEN_ERROR;
+    }
+
     file << jArr;
 
     return ERRORS::NO_ERROR;
@@ -105,12 +110,26 @@ json LoadFromFile(const std::string &strName, ERRORS *pError) {
         if (pError != nullptr) {
             *pError = ERRORS::INVALID_ARGUMENT;
         }
-
         return {};
     }
 
     std::ifstream ifs(strName);
-    json jf = json::parse(ifs);
+
+    if (!ifs.is_open()) {
+        if (pError != nullptr) {
+            *pError = ERRORS::FILE_OPEN_ERROR;
+        }
+        return {};
+    }
+
+    json jf;
+
+    try {
+        ifs >> jf;
+    } catch (json::parse_error) {
+        *pError = ERRORS::FILE_OPEN_ERROR;
+        return {};
+    }
 
     return jf;
 }

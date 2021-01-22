@@ -13,9 +13,6 @@ public:
     };
 
     ~LinkedList() {
-        while (m_pHead != nullptr) {
-            PopFront();
-        }
     }
 
     void PushFront(T value) {

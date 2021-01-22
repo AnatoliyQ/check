@@ -24,7 +24,9 @@ struct AEROFLOT {
 
 bool operator==(const AEROFLOT &lhs, const AEROFLOT &rhs);
 
-AEROFLOT EnterFlight(LinkedList<AEROFLOT> pList);
+AEROFLOT EnterUnicFlight(LinkedList<AEROFLOT> pList);
+
+AEROFLOT EnterFlight();
 
 void EditFlight(AEROFLOT &flight, LinkedList<AEROFLOT> *pList);
 
@@ -32,7 +34,7 @@ void EditDestination(std::string &strDestination);
 
 void EditFlightNumber(size_t &nFlightNumber, LinkedList<AEROFLOT> *pList);
 
-void EditAircraftType(std::string &strAircraftType);
+void EditAircraftType(std::string &strAircraftType, LinkedList<AEROFLOT> *pList);
 
 json AeroflotListToJson(const LinkedList<AEROFLOT> &arrFlight);
 
@@ -57,7 +59,6 @@ bool CheckDestination(const std::string &strDestination);
 
 bool CheckNumber(int iFlightNumber);
 
-bool isUnicFlight (int nFlightNumber, LinkedList<AEROFLOT> pList);
-
+bool isUnicFlight(int nFlightNumber, LinkedList<AEROFLOT> pList);
 
 #endif // AEROFLOT_H
